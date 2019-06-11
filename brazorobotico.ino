@@ -50,11 +50,11 @@ void setup() {
 //pinza
   
   motorPinza.attach(pinPinza);
-  motorPinza.write(0);
-  delay(2000);//espere dos segundos
   motorPinza.write(90);
   delay(2000);//espere dos segundos
   motorPinza.write(0);
+  delay(2000);//espere dos segundos
+  motorPinza.write(90);
   delay(2000);//espere dos segundos
  
 
