@@ -13,57 +13,44 @@ Servo motorPinza; //declara el servo de la pinza
 
 void setup() {
   // put your setup code here, to run once:
+  Serial.begin(9600);
 
-//Base
-  motorBase.attach(pinBase);
-  motorBase.write(0);
-  delay(2000);//espere dos segundos
-  motorBase.write(180);
-  delay(2000);//espere dos segundos
-  motorBase.write(90 );
-  delay(2000);//espere dos segundos
+}
 
+int i;
+char s[6];
 
-//servoderecho(adelante atras)
-
-  motorA.attach(pinA);
-  motorA.write(180);
-  delay(2000);//espere dos segundos
-  motorA.write(45);
-  delay(2000);//espere dos segundos
-  motorA.write(90 );
-  delay(2000);//espere dos segundos
+void loop(){
 
 
+    if(Serial.available()>0&&Serial.available()<6);
+    { Serial.readBytes(s,6);
+        switch(s[0])
+        { 
+          case 'B' :   motorBase.attach(pinBase);
+                       motorBase.write(((s[1]-48)*100)+((s[2]-48)*10)+((s[3]-48)*1));//limite de 0 a 180
+                       delay(2000);//espere dos segundos
+                       break;
 
-//servo izquierdo(arriba abajo)
-  motorAB.attach(pinAB);
-  motorAB.write(10);
-  delay(2000);//espere dos segundos
-  motorAB.write(45);
-  delay(2000);//espere dos segundos
-  motorAB.write(100 ); //hasta 100
-  delay(2000);//espere dos segundos
+         case 'G' :  motorPinza.attach(pinPinza);
+                     motorPinza.write(((s[1]-48)*100)+((s[2]-48)*10)+((s[3]-48)*1));//limite de 0 a 35
+                     delay(2000);//espere dos segundos
+                     break;
 
+         case 'D' :  motorA.attach(pinA);
+                     //motorA.write(90);
+         
+                     motorA.write(((s[1]-48)*100)+((s[2]-48)*10)+((s[3]-48)*1));//limite de 45 a 100
+                     delay(2000);//espere dos segundos
+                     break;
 
-
-//pinza
-  
-  motorPinza.attach(pinPinza);
-  motorPinza.write(90);
-  delay(2000);//espere dos segundos
-  motorPinza.write(0);
-  delay(2000);//espere dos segundos
-  motorPinza.write(90);
-  delay(2000);//espere dos segundos
+         case 'I' : motorAB.attach(pinAB);
+                    motorAB.write(((s[1]-48)*100)+((s[2]-48)*10)+((s[3]-48)*1));//limite de 10 a 100
+                    delay(2000);//espere dos segundos
+                    break;
+        };
+        Serial.print(s);
+    }
+    delay(500);
+}
  
-
-
-
-
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-
-}
